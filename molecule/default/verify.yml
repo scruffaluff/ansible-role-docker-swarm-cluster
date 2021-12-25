@@ -1,10 +1,16 @@
 ---
-# This is an example playbook to execute Ansible tests.
-
 - name: Verify
+  become: yes
   hosts: all
-  gather_facts: false
   tasks:
-    - name: Example assertion
+    - name: Node is already part of a Swarm cluster
+      changed_when: yes
+      command:
+        cmd: docker swarm init
+      failed_when: no
+      register: swarm_init
+
+    - name: Assert that output is correct
       assert:
-        that: true
+        that:
+          - "'This node is already part of a swarm.' in swarm_init.stderr"

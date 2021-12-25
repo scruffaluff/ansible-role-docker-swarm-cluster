@@ -1,2 +1,2 @@
 ---
-# defaults file for docker-swarm-init
+install_docker_swarm_dependencies: yes

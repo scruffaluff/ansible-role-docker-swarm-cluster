@@ -1,0 +1,19 @@
+# Git configuration file for ignoring untracked paths.
+#
+# For more information, visit https://git-scm.com/docs/gitignore.
+
+__pycache__/
+.coverage
+.DS_Store
+.env
+.ipynb_checkpoints/
+.mypy_cache/
+.pdbrc
+.pytest_cache/
+.tox/
+.venv/
+.vscode/
+*.egg-info/
+*.pyc
+/tmp/
+nohup.out

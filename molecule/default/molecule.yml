@@ -5,13 +5,28 @@ driver:
   name: vagrant
   provider:
     name: virtualbox
-lint: |
-  yamllint .
-  ansible-lint .
 platforms:
-  - name: ubuntu
+  - name: manager-1
     box: generic/ubuntu2110
-    memory: 4096
+    groups:
+      - swarm_managers
+    interfaces:
+      - network_name: private_network
+        ip: "192.168.62.101"
+  - name: worker-1
+    box: generic/ubuntu2110
+    groups:
+      - swarm_workers
+    interfaces:
+      - network_name: private_network
+        ip: "192.168.62.102"
+  - name: worker-2
+    box: generic/ubuntu2110
+    groups:
+      - swarm_workers
+    interfaces:
+      - network_name: private_network
+        ip: "192.168.62.103"
 provisioner:
   name: ansible
 verifier:

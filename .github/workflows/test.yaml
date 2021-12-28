@@ -1,0 +1,54 @@
+# GitHub Actions workflow file.
+#
+# For more information, visit
+# https://docs.github.com/actions/learn-github-actions.
+
+name: test
+
+# Trigger workflow on push or pull request to the develop, main, and master
+# branches.
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+      - master
+  push:
+    branches:
+      - develop
+      - main
+      - master
+
+jobs:
+  test:
+    name: Run Molecule test suite
+    runs-on: macos-10.15
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v2
+      - name: Install Vagrant plugins
+        run: |
+          vagrant plugin install winrm
+          vagrant plugin install winrm-elevated
+          vagrant plugin install winrm-fs
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}_vagrant-${{ hashFiles('tools/Vagrantfile') }}
+      - name: Install Python interpreter
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Cache Python packages
+        uses: actions/cache@v2
+        with:
+          path: .venv
+          key: ${{ runner.os }}_poetry-${{ hashFiles('poetry.lock') }}
+      - name: Install Python packages
+        run: |
+          python -m pip install --upgrade pip poetry wheel
+          poetry config virtualenvs.in-project true
+          poetry install -v
+      - name: Run test suite
+        run: poetry run molecule test

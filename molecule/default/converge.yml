@@ -7,9 +7,24 @@
 - name: Converge
   become: true
   hosts: all
+  pre_tasks:
+    - name: Update package cache for Debian distributions
+      apt:
+        cache_valid_time: 3600
+        update_cache: true
+      when: ansible_pkg_mgr == "apt"
+
+    - name: Install Python dependencies for Ansible modules
+      pip:
+        name:
+          - docker
+
   roles:
     - role: geerlingguy.pip
     - role: geerlingguy.docker
+      vars:
+        docker_users:
+          - vagrant
     - role: scruffaluff.docker_swarm_cluster
       vars:
         docker_swarm_advertise_address: "192.168.62.101"

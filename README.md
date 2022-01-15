@@ -7,12 +7,8 @@ The role will initialize the cluster with the first host from the
 
 ## Requirements
 
-Docker must already be installed on each host and the following Python packages
-are required for the role's Ansible modules.
-
-- docker
-- jsondiff
-- pyyaml
+Docker must already be installed on each host and the `docker` Python package is
+required for the role's Ansible modules.
 
 ## Role Variables
 

@@ -8,14 +8,23 @@
   become: true
   hosts: all
   tasks:
-    - name: Node is already part of a Swarm cluster
+    - name: Init Docker Swarm again
       changed_when: true
-      command:
-        cmd: docker swarm init
+      command: docker swarm init
       failed_when: false
-      register: swarm_init
+      register: docker_swarm_init
 
-    - name: Assert that output is correct
+    - name: Node is already part of a Swarm cluster
       assert:
         that:
-          - "'This node is already part of a swarm.' in swarm_init.stderr"
+          - "'This node is already part of a swarm.' in docker_swarm_init.stderr"
+
+    - name: List all nodes in Swarm cluster
+      command: docker node ls --quiet
+      register: docker_node_ls
+      run_once: true
+      when: "'docker_swarm_managers' in group_names"
+
+    - name: All nodes are available in the Swarm cluster
+      assert:
+        that: "{{ docker_node_ls.stdout | split | length }} == 4"

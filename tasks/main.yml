@@ -8,7 +8,6 @@
 
 - name: Add manager nodes to Docker Swarm cluster
   community.docker.docker_swarm:
-    advertise_addr: "{{ ansible_default_ipv4.address }}"
     join_token: >-
       {{
       docker_swarm_leader_node['swarm_info']['swarm_facts']['JoinTokens']['Manager']

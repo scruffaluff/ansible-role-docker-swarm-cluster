@@ -1,7 +1,8 @@
 ---
 docker_swarm_advertise_address:
-  "{{ hostvars[groups['swarm_managers'][0]]['ansible_default_ipv4']['address']
+  "{{
+  hostvars[groups['docker_swarm_managers'][0]]['ansible_default_ipv4']['address']
   }}"
 docker_swarm_leader_hostname:
-  "{{ hostvars[groups['swarm_managers'][0]]['ansible_hostname'] }}"
-docker_swarm_leader_node: "{{ hostvars[groups['swarm_managers'][0]] }}"
+  "{{ hostvars[groups['docker_swarm_managers'][0]]['ansible_hostname'] }}"
+docker_swarm_leader_node: "{{ hostvars[groups['docker_swarm_managers'][0]] }}"

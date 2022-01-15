@@ -16,7 +16,7 @@
       - "{{ docker_swarm_advertise_address }}"
     state: join
   when:
-    "'swarm_managers' in group_names and ansible_hostname !=
+    "'docker_swarm_managers' in group_names and ansible_hostname !=
     docker_swarm_leader_hostname"
 
 - name: Add worker nodes to Docker Swarm cluster
@@ -29,4 +29,4 @@
     remote_addrs:
       - "{{ docker_swarm_advertise_address }}"
     state: join
-  when: "'swarm_workers' in group_names"
+  when: "'docker_swarm_workers' in group_names"

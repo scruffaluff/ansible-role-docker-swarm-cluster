@@ -1,6 +1,9 @@
 # Docker Swarm Cluster
 
-A brief description of the role goes here.
+Docker Swarm Cluster is an Ansible role to create a Docker Swarm cluster using
+the inventory file groups, `docker_swarm_managers` and `docker_swarm_workers`.
+The role will initialize the cluster with the first host from the
+`docker_swarm_managers` group and then join group hosts to the cluster.
 
 ## Requirements
 
@@ -29,7 +32,7 @@ passed in as parameters) is always nice for users too:
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+        - { role: username.rolename, x: 42 }
 
 ## License
 

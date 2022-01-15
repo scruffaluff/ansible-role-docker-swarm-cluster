@@ -1,3 +1,8 @@
+# Molecule scenario runner playbook.
+#
+# For more information, visit
+# https://molecule.readthedocs.io/en/latest/getting-started.html#the-scenario-layout.
+
 ---
 - name: Converge
   become: yes

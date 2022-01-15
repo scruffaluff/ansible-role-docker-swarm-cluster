@@ -50,5 +50,5 @@ jobs:
       # https://github.com/ansible-community/ansible-lint/issues/892 bug.
       - name: Lint role and YAML files
         run: |
-          ansible-lint .
-          yamllint --strict .
+          poetry run ansible-lint .
+          poetry run yamllint --strict .

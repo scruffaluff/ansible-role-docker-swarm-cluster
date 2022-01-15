@@ -1,5 +1,9 @@
+# YamlLint configuration file for enforcing YAML file conventions.
+#
+# For more information, visit
+# https://yamllint.readthedocs.io/en/stable/configuration.html.
+
 ---
-# Based on ansible-lint config
 extends: default
 
 rules:

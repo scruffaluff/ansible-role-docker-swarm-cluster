@@ -1,3 +1,8 @@
+# Molecule configuration file for test scenario.
+#
+# For more information, visit
+# https://molecule.readthedocs.io/en/latest/getting-started.html#inspecting-the-molecule-yml.
+
 ---
 dependency:
   name: galaxy

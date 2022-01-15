@@ -1,4 +1,7 @@
-# Ansible role meta file.
+# Ansible role metadata file.
+#
+# For more information, visit
+# https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#role-argument-validation.
 
 dependencies: []
 

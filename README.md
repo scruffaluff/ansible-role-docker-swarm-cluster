@@ -1,4 +1,4 @@
-# Role Name
+# Docker Swarm Cluster
 
 A brief description of the role goes here.
 
@@ -33,9 +33,5 @@ passed in as parameters) is always nice for users too:
 
 ## License
 
-BSD
-
-## Author Information
-
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+Docker Swarm Cluster is distributed under a
+[MIT license](https://github.com/wolfgangwazzlestrauss/ansible-role-docker-swarm-cluster/blob/master/LICENSE.md).

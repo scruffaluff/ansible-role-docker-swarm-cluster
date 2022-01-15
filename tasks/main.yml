@@ -1,26 +1,4 @@
 ---
-- name: Install Docker and Python system packages for Linux
-  package:
-    name:
-      - docker.io
-      - python3
-      - python3-pip
-  when: install_docker_swarm_dependencies and ansible_system == "Linux"
-
-- name: Install Python dependencies for Ansible modules
-  pip:
-    name:
-      - docker
-      - jsondiff
-      - pyyaml
-  when: install_docker_swarm_dependencies
-
-- name: Enable Docker as a service for Linux
-  systemd:
-    enabled: yes
-    name: docker
-  when: install_docker_swarm_dependencies and ansible_system == "Linux"
-
 - name: Initialize Docker Swarm manager
   community.docker.docker_swarm:
     advertise_addr: "{{ ansible_default_ipv4.address }}"

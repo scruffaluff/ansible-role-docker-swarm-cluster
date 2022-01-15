@@ -1,32 +1,33 @@
 ---
-- name: Initialize Docker Swarm cluster
+- name: Initialize leader node Docker Swarm cluster
   community.docker.docker_swarm:
-    advertise_addr: "{{ ansible_default_ipv4.address }}"
+    advertise_addr: "{{ docker_swarm_advertise_address }}"
     state: present
   register: swarm_info
-  run_once: yes
-  when: ansible_hostname == groups['swarm_managers'][0]
+  when: ansible_hostname == docker_swarm_leader_hostname
 
 - name: Add manager nodes to Docker Swarm cluster
   community.docker.docker_swarm:
     advertise_addr: "{{ ansible_default_ipv4.address }}"
     join_token: >-
       {{
-      hostvars[groups['swarm_managers'][0]]['swarm_info']['swarm_facts']['JoinTokens']['Manager']
+      docker_swarm_leader_node['swarm_info']['swarm_facts']['JoinTokens']['Manager']
       }}
     remote_addrs:
-      - "{{ advertise_addr }}"
+      - "{{ docker_swarm_advertise_address }}"
     state: join
-  when: "'swarm_managers' in group_names and ansible_hostname != groups['swarm_managers'][0]"
+  when:
+    "'swarm_managers' in group_names and ansible_hostname !=
+    docker_swarm_leader_hostname"
 
 - name: Add worker nodes to Docker Swarm cluster
   community.docker.docker_swarm:
     advertise_addr: "{{ ansible_default_ipv4.address }}"
     join_token: >-
       {{
-      hostvars[groups['swarm_managers'][0]]['swarm_info']['swarm_facts']['JoinTokens']['Worker']
+      docker_swarm_leader_node['swarm_info']['swarm_facts']['JoinTokens']['Worker']
       }}
     remote_addrs:
-      - "{{ advertise_addr }}"
+      - "{{ docker_swarm_advertise_address }}"
     state: join
   when: "'swarm_workers' in group_names"

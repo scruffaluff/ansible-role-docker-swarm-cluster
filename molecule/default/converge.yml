@@ -32,4 +32,6 @@
 
     - name: Execute role
       include_role:
-        name: wolfgangwazzlestrauss.docker_swarm_cluster
+        name: scruffaluff.docker_swarm_cluster
+      vars:
+        docker_swarm_advertise_address: "192.168.62.101"

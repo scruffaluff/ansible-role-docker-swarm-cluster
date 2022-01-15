@@ -5,14 +5,14 @@
 
 ---
 - name: Verify
-  become: yes
+  become: true
   hosts: all
   tasks:
     - name: Node is already part of a Swarm cluster
-      changed_when: yes
+      changed_when: true
       command:
         cmd: docker swarm init
-      failed_when: no
+      failed_when: false
       register: swarm_init
 
     - name: Assert that output is correct

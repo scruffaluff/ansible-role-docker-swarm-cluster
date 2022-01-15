@@ -30,6 +30,6 @@
         name: docker
       when: ansible_system == "Linux"
 
-    - name: "Include docker-swarm"
+    - name: Execute role
       include_role:
-        name: "docker-swarm"
+        name: docker_swarm_cluster

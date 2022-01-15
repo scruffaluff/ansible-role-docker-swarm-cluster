@@ -10,7 +10,7 @@ galaxy_info:
   license: MIT
   min_ansible_version: 2.1
   namespace: wolfgangwazzlestrauss
-  role_name: docker_swarm_init
+  role_name: docker_swarm_cluster
   # For more information on available platforms, visit
   # https://galaxy.ansible.com/api/v1/platforms.
   platforms:

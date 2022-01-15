@@ -32,4 +32,4 @@
 
     - name: Execute role
       include_role:
-        name: docker_swarm_cluster
+        name: wolfgangwazzlestrauss.docker_swarm_cluster

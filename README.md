@@ -27,9 +27,12 @@ creates the Docker Swarm cluster.
 ```yaml
 - hosts: all
   roles:
-    - geerlingguy.pip
-    - geerlingguy.docker
-    - scruffaluff.docker_swarm_cluster
+    - role: geerlingguy.pip
+      vars:
+        pip_install_packages:
+          - name: docker
+    - role: geerlingguy.docker
+    - role: scruffaluff.docker_swarm_cluster
 ```
 
 ## License

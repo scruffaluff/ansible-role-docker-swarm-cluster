@@ -14,13 +14,11 @@
         update_cache: true
       when: ansible_pkg_mgr == "apt"
 
-    - name: Install Python dependencies for Ansible modules
-      pip:
-        name:
-          - docker
-
   roles:
     - role: geerlingguy.pip
+      vars:
+        pip_install_packages:
+          - name: docker
     - role: geerlingguy.docker
       vars:
         docker_users:

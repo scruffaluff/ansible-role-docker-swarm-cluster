@@ -51,4 +51,4 @@ jobs:
       - name: Lint role and YAML files
         run: |
           poetry run ansible-lint .
-          poetry run yamllint --strict .
+          poetry run yamllint --strict -f parsable .

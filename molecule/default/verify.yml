@@ -16,8 +16,8 @@
 
     - name: Node is already part of a Swarm cluster
       assert:
-        that:
-          - "'This node is already part of a swarm.' in docker_swarm_init.stderr"
+        that: >-
+          'This node is already part of a swarm.' in docker_swarm_init.stderr
 
     - name: List all nodes in Swarm cluster
       command: docker node ls --quiet

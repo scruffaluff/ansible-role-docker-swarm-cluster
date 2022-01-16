@@ -1,4 +1,6 @@
 ---
-_docker_swarm_leader: "{{ hostvars[groups['docker_swarm_managers'][0]] }}"
+_docker_swarm_leader: "{{ hostvars[groups[docker_swarm_manager_group][0]] }}"
 docker_swarm_advertise_address:
   "{{ _docker_swarm_leader['ansible_default_ipv4']['address'] }}"
+docker_swarm_manager_group: docker_swarm_managers
+docker_swarm_worker_group: docker_swarm_workers

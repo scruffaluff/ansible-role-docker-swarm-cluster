@@ -18,6 +18,9 @@ By default, the role will use the IP address of first host from the
 of the cluster. To use a custom address, set the
 `docker_swarm_advertise_address` variable.
 
+The names of the inventory file groups can be changed with the
+`docker_swarm_manager_group` and `docker_swarm_worker_group` variables.
+
 ## Example Playbook
 
 The following play first uses [Jeff Geerling](https://github.com/geerlingguy)'s

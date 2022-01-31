@@ -24,5 +24,6 @@
         docker_users:
           - vagrant
     - role: scruffaluff.docker_swarm_cluster
+      any_errors_fatal: true
       vars:
         docker_swarm_advertise_address: "192.168.62.101"

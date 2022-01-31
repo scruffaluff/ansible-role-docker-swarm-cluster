@@ -6,34 +6,35 @@
 ---
 dependency:
   name: galaxy
+  requirements_file: requirements.yml
 driver:
   name: vagrant
   provider:
     name: virtualbox
 platforms:
-  - name: manager-1
+  - name: molecule-docker-swarm-manager-1
     box: ubuntu/impish64
     groups:
       - docker_swarm_managers
     interfaces:
       - ip: "192.168.62.101"
         network_name: private_network
-  - name: manager-2
-    box: ubuntu/impish64
+  - name: molecule-docker-swarm-manager-2
+    box: generic/fedora35
     groups:
       - docker_swarm_managers
     interfaces:
       - ip: "192.168.62.102"
         network_name: private_network
-  - name: worker-1
+  - name: molecule-docker-swarm-worker-1
     box: ubuntu/impish64
     groups:
       - docker_swarm_workers
     interfaces:
       - ip: "192.168.62.103"
         network_name: private_network
-  - name: worker-2
-    box: ubuntu/impish64
+  - name: molecule-docker-swarm-worker-2
+    box: generic/fedora35
     groups:
       - docker_swarm_workers
     interfaces:

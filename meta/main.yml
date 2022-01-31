@@ -8,7 +8,7 @@ dependencies: []
 
 galaxy_info:
   author: Macklan Weinstein
-  description: your role description
+  description: Creates a Docker Swarm cluster from an inventory file
   galaxy_tags:
     - docker
   license: MIT

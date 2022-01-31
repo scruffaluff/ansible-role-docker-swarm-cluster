@@ -25,6 +25,11 @@ python = "^3.7.0"
 
 [tool.poetry.dev-dependencies]
 ansible = "^4.8.0"
+# Ansible-compat 1.0.0 does not work with Molecule. Its runtime.py's function
+# prepare_environment has a install_local default variable which is set to
+# False. This prevents Molecule from creating a symlink to the repository in
+# order to install the role.
+ansible-compat = "^0.5.0"
 ansible-lint = "^5.2.1"
 molecule = {extras = ["lint", "docker", "vagrant"], version = "^3.5.2"}
 molecule-vagrant = "^1.0.0"

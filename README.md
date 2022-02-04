@@ -41,4 +41,4 @@ creates the Docker Swarm cluster.
 ## License
 
 Docker Swarm Cluster is distributed under a
-[MIT license](https://github.com/wolfgangwazzlestrauss/ansible-role-docker-swarm-cluster/blob/master/LICENSE.md).
+[MIT license](https://github.com/scruffaluff/ansible-role-docker-swarm-cluster/blob/master/LICENSE.md).

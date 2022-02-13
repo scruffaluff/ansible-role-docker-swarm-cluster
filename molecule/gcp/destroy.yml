@@ -1,0 +1,41 @@
+# Molecule scenario infrastructure destruction playbook.
+#
+# For more information, visit
+# https://molecule.readthedocs.io/en/latest/getting-started.html#the-scenario-layout.
+
+---
+- name: Destroy
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  tasks:
+    - name: Destroy compute instances
+      include_tasks: tasks/destroy_compute.yaml
+      loop: "{{ molecule_yml.platforms }}"
+
+    - name: Destroy firewall
+      google.cloud.gcp_compute_firewall:
+        name: molecule-docker-swarm-cluster-firewall
+        project: "{{ molecule_yml.driver.gcp_project }}"
+        state: absent
+
+    - name: Destroy network
+      google.cloud.gcp_compute_network:
+        name: molecule-docker-swarm-cluster-network
+        project: "{{ molecule_yml.driver.gcp_project }}"
+        state: absent
+
+    - name: Populate instance config
+      set_fact:
+        instance_conf: {}
+
+    - name: Dump instance config
+      copy:
+        content: |
+          # Molecule managed
+
+          {{ instance_conf | to_json | from_json | to_yaml }}
+        dest: "{{ molecule_instance_config }}"
+        mode: 0600
+      when: server.changed | default(false) | bool

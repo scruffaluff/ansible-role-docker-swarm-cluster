@@ -1,0 +1,41 @@
+# Molecule configuration file for test scenario.
+#
+# For more information, visit
+# https://molecule.readthedocs.io/en/latest/getting-started.html#inspecting-the-molecule-yml.
+
+---
+dependency:
+  name: galaxy
+driver:
+  name: delegated
+  gcp_auth_kind: "${GCP_AUTH_KIND}"
+  gcp_project: "${GCP_PROJECT}"
+  gcp_service_account_file: "${GCP_SERVICE_ACCOUNT_FILE}"
+  gcp_zone: "${GCP_ZONE:-us-west1-a}"
+  ssh_private_key_file: "${SSH_PRIVATE_KEY_FILE}"
+  ssh_public_key_file: "${SSH_PUBLIC_KEY_FILE}"
+platforms:
+  - name: molecule-docker-swarm-manager-1
+    groups:
+      - docker_swarm_managers
+    image: projects/ubuntu-os-cloud/global/images/family/ubuntu-2110
+    size: 16
+  - name: molecule-docker-swarm-manager-2
+    groups:
+      - docker_swarm_managers
+    image: projects/suse-cloud/global/images/family/sles-15
+    size: 16
+  - name: molecule-docker-swarm-worker-1
+    groups:
+      - docker_swarm_workers
+    image: projects/fedora-cloud/global/images/family/fedora-cloud-35
+    size: 16
+  - name: molecule-docker-swarm-worker-2
+    groups:
+      - docker_swarm_workers
+    image: projects/debian-cloud/global/images/family/debian-11
+    size: 16
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

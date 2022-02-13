@@ -1,0 +1,73 @@
+# Molecule scenario infrastructure creation playbook.
+#
+# For more information, visit
+# https://molecule.readthedocs.io/en/latest/getting-started.html#the-scenario-layout.
+
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  tasks:
+    - name: Create network
+      google.cloud.gcp_compute_network:
+        auto_create_subnetworks: true
+        name: molecule-docker-swarm-cluster-network
+        project: "{{ molecule_yml.driver.gcp_project }}"
+        state: present
+      register: network
+
+    - name: Create firewall rules to expose ports
+      google.cloud.gcp_compute_firewall:
+        allowed:
+          - ip_protocol: tcp
+            ports:
+              - 22
+              - 80
+              - 443
+              - 2377
+        name: molecule-docker-swarm-cluster-firewall
+        network: { "selfLink": "{{ network.selfLink }}" }
+        project: "{{ molecule_yml.driver.gcp_project }}"
+        source_ranges: ["0.0.0.0/0"]
+        state: present
+      register: firewall
+
+    - name: Initialize platforms data
+      set_fact:
+        platforms:
+          changed: false
+          results: []
+
+    - name: Create instances
+      include_tasks: tasks/create_compute.yaml
+      loop: "{{ molecule_yml.platforms }}"
+
+    - when: platforms.changed | default(false) | bool
+      block:
+        - name: Populate instance config dict
+          set_fact:
+            instance_conf_dict:
+              address: "{{ item.address.address }}"
+              identity_file: "{{ molecule_yml.driver.ssh_private_key_file }}"
+              instance: "{{ item.compute.name }}"
+              port: 22
+              user: molecule
+          loop: "{{ platforms.results }}"
+          register: instance_config_dict
+
+        - name: Convert instance config dict to a list
+          set_fact:
+            instance_conf: >-
+              {{ instance_config_dict.results |
+              map(attribute='ansible_facts.instance_conf_dict') | list }}
+
+        - name: Dump instance config
+          copy:
+            content: |
+              # Molecule managed
+
+              {{ instance_conf | to_json | from_json | to_yaml }}
+            dest: "{{ molecule_instance_config }}"
+            mode: 0600

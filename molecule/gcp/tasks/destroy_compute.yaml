@@ -1,0 +1,21 @@
+---
+- name: Destroy compute instance
+  google.cloud.gcp_compute_instance:
+    name: "{{ item.name }}"
+    project: "{{ molecule_yml.driver.gcp_project }}"
+    state: absent
+    zone: "{{ molecule_yml.driver.gcp_zone }}"
+
+- name: Destroy disk
+  google.cloud.gcp_compute_disk:
+    name: "{{ item.name }}-disk"
+    project: "{{ molecule_yml.driver.gcp_project }}"
+    state: absent
+    zone: "{{ molecule_yml.driver.gcp_zone }}"
+
+- name: Destroy address
+  google.cloud.gcp_compute_address:
+    name: "{{ item.name }}-address"
+    region: "{{ '-'.join(molecule_yml.driver.gcp_zone.split('-')[:-1])  }}"
+    project: "{{ molecule_yml.driver.gcp_project }}"
+    state: absent

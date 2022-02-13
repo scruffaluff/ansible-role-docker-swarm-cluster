@@ -1,0 +1,54 @@
+---
+- name: Create address
+  google.cloud.gcp_compute_address:
+    name: "{{ item.name }}-address"
+    region: "{{ '-'.join(molecule_yml.driver.gcp_zone.split('-')[:-1])  }}"
+    project: "{{ molecule_yml.driver.gcp_project }}"
+    state: present
+  register: address
+
+- name: Create disk
+  google.cloud.gcp_compute_disk:
+    name: "{{ item.name }}-disk"
+    project: "{{ molecule_yml.driver.gcp_project }}"
+    size_gb: "{{ item.size }}"
+    source_image: "{{ item.image }}"
+    state: present
+    zone: "{{ molecule_yml.driver.gcp_zone }}"
+  register: disk
+
+- name: Create compute instance
+  google.cloud.gcp_compute_instance:
+    disks:
+      - auto_delete: true
+        boot: true
+        source: "{{ disk }}"
+    machine_type: n1-standard-1
+    metadata:
+      ssh-keys:
+        "molecule:{{ lookup('file', molecule_yml.driver.ssh_public_key_file)
+        }}\n"
+    name: "{{ item.name }}"
+    network_interfaces:
+      - network: "{{ network }}"
+        access_configs:
+          - name: access-config
+            nat_ip: "{{ address }}"
+            type: ONE_TO_ONE_NAT
+    project: "{{ molecule_yml.driver.gcp_project }}"
+    state: present
+    zone: "{{ molecule_yml.driver.gcp_zone }}"
+  register: compute
+
+- name: Wait for SSH availability
+  wait_for:
+    host: "{{ address.address }}"
+    port: 22
+
+- name: Update platforms data
+  set_fact:
+    platforms:
+      changed: "{{ platforms.changed or compute.changed }}"
+      results: >-
+        {{ platforms.results + [ { 'address': address, 'compute': compute,
+        'disk': disk } ] }}

@@ -1,0 +1,27 @@
+# Molecule scenario runner playbook.
+#
+# For more information, visit
+# https://molecule.readthedocs.io/en/latest/getting-started.html#the-scenario-layout.
+
+---
+- name: Converge
+  any_errors_fatal: true
+  become: true
+  hosts: all
+  pre_tasks:
+    - name: Update package cache for Debian distributions
+      apt:
+        cache_valid_time: 3600
+        update_cache: true
+      when: ansible_pkg_mgr == "apt"
+
+  roles:
+    - role: geerlingguy.pip
+      vars:
+        pip_install_packages:
+          - name: docker
+    - role: geerlingguy.docker
+      vars:
+        docker_users:
+          - molecule
+    - role: scruffaluff.docker_swarm_cluster

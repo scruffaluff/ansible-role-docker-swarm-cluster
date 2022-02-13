@@ -31,9 +31,11 @@ ansible = "^4.8.0"
 # order to install the role.
 ansible-compat = "^0.5.0"
 ansible-lint = "^5.2.1"
+google-auth = "^2.5.0"
 molecule = {extras = ["lint", "docker", "vagrant"], version = "^3.5.2"}
 molecule-vagrant = "^1.0.0"
 pdbpp = "^0.10.3"
 python-vagrant = "^0.5.15"
 pywinrm = "^0.4.2"
+requests = "^2.27.1"
 yamllint = "^1.26.3"

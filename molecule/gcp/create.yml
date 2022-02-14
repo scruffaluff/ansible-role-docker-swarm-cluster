@@ -28,7 +28,8 @@
               - 443
               - 2377
         name: molecule-docker-swarm-cluster-firewall
-        network: { "selfLink": "{{ network.selfLink }}" }
+        network:
+          selfLink: "{{ network.selfLink }}"
         project: "{{ molecule_yml.driver.gcp_project }}"
         source_ranges: ["0.0.0.0/0"]
         state: present
